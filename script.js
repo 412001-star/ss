@@ -35,6 +35,15 @@ function fillAdminFields(data) {
   setText("#field-examples", data.examples || "");
 }
 
+function normalizeApiResponse(payload, query) {
+  const data = payload?.data || payload?.result || payload;
+  return {
+    original: data.original || data.text || data.query || query,
+    translation: data.translation || data.trans || data.meaning || data.content || "",
+    examples: data.examples || data.example || data.exampleSentences || data.sentences || ""
+  };
+}
+
 async function callGuwenApi(query) {
   if (!query) {
     throw new Error("請先輸入查詢內容。");
@@ -43,8 +52,8 @@ async function callGuwenApi(query) {
   if (API_BASE_URL.includes("example.com")) {
     return {
       original: query,
-      translation: `${query} 的白話翻譯範例。`,
-      examples: `例句：${query}，這是現代感想。`
+      translation: `這句古文的白話翻譯示範：${query} 的意思是「這裡填入白話文翻譯」。`,
+      examples: `例句：讀到「${query}」，你可以理解為現代白話語境。`
     };
   }
 
@@ -61,7 +70,7 @@ async function callGuwenApi(query) {
     throw new Error("API 回傳資料格式錯誤。");
   }
 
-  return payload;
+  return normalizeApiResponse(payload, query);
 }
 
 async function queryMainPage() {
