@@ -50,10 +50,14 @@ async function callGuwenApi(query) {
   }
 
   if (API_BASE_URL.includes("example.com")) {
+    const sampleTranslation = query.includes("學而時習之，不亦樂乎")
+      ? "時常溫習學過的東西，不也很快樂嗎？"
+      : `這句話的白話大意是：「時常溫習所學的內容，不也是一件令人高興的事嗎？」`;
+
     return {
       original: query,
-      translation: `這句古文的白話翻譯示範：${query} 的意思是「這裡填入白話文翻譯」。`,
-      examples: `例句：讀到「${query}」，你可以理解為現代白話語境。`
+      translation: sampleTranslation,
+      examples: `例句：若你能每天複習所學，便會如同「${query}」所說，感到十分愉快。`
     };
   }
 
