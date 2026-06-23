@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>古文解釋查詢</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>古文解釋查詢軟體</h1>
+      <p>輸入文言文，立即取得白話翻譯與例句。</p>
+    </header>
+
+    <main>
+      <section class="card search-card">
+        <label for="main-query" class="label">請輸入文言文</label>
+        <textarea id="main-query" placeholder="例如：學而時習之，不亦說乎？"></textarea>
+        <button id="main-search" class="button">查詢</button>
+      </section>
+
+      <section class="card result-card">
+        <h2>查詢結果</h2>
+        <div class="field">
+          <h3>原文</h3>
+          <pre id="result-original">請輸入文言文後點選查詢。</pre>
+        </div>
+        <div class="field">
+          <h3>白話翻譯</h3>
+          <pre id="result-translation">系統會自動填入翻譯內容。</pre>
+        </div>
+        <div class="field">
+          <h3>例句</h3>
+          <pre id="result-examples">若 API 連線成功，這裡會顯示範例句。</pre>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>前往管理頁面：<a href="admin.html">古文管理頁面</a></p>
+      </footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>古文管理頁面</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>古文管理頁面</h1>
+      <p>查詢古文解釋、編輯內容，並儲存到 Google 試算表。</p>
+    </header>
+
+    <main>
+      <section class="card search-card">
+        <label for="admin-query" class="label">管理查詢文字</label>
+        <input id="admin-query" type="text" placeholder="輸入需要查詢的文言文" />
+        <button id="admin-search" class="button">查詢</button>
+      </section>
+
+      <section class="card edit-card">
+        <div class="field-group">
+          <label for="field-original">原文</label>
+          <textarea id="field-original" rows="4" placeholder="查詢後會自動填入原文"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="field-translation">白話翻譯</label>
+          <textarea id="field-translation" rows="4" placeholder="查詢後會自動填入翻譯"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="field-examples">例句</label>
+          <textarea id="field-examples" rows="4" placeholder="查詢後會自動填入例句"></textarea>
+        </div>
+        <div class="action-row">
+          <button id="save-sheet" class="button button-primary">儲存至 Google 試算表</button>
+          <span id="status-message" class="status">請先查詢內容，或直接編輯後儲存。</span>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>返回查詢頁面：<a href="index.html">古文查詢首頁</a></p>
+      </footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
