@@ -44,20 +44,80 @@ function normalizeApiResponse(payload, query) {
   };
 }
 
+function simpleClassicalTranslation(query) {
+  const phraseMap = {
+    "學而時習之，不亦樂乎？": "時常溫習學過的東西，不也很高興嗎？",
+    "子曰：學而時習之，不亦說乎？": "孔子說：學了就常常溫習，不也很開心嗎？",
+    "知之者不如好之者，好之者不如樂之者。": "知道它的人不如喜歡它的人，喜歡它的人不如以它為樂的人。",
+    "人無遠慮，必有近憂。": "人如果沒有長遠的打算，必定會有眼前的憂患。",
+    "學而不思則罔，思而不學則殆。": "學了不思考就會迷失，思考了但不學習就會陷入危險。",
+    "見賢思齊焉。": "見到有德行的人，應該想到要向他看齊。",
+    "勿以惡小而為之勿以善小而不為": "不要因為壞事很小就去做；不要因為好事很小就不去做。",
+    "勿以惡小而為它勿以善小而不為": "不要因為壞事很小就去做；不要因為好事很小就不去做。"
+  };
+
+  if (phraseMap[query]) {
+    return phraseMap[query];
+  }
+
+  const normalized = query.replace(/[，。？！]/g, "");
+  const replacements = [
+    ["子曰", "孔子說"],
+    ["曰", "說"],
+    ["不亦樂乎", "不也很高興嗎"],
+    ["不亦說乎", "不也很高興嗎"],
+    ["學而時習之", "學習了就經常溫習它"],
+    ["時習之", "經常溫習它"],
+    ["學而不思則罔", "學了不思考就會迷失"],
+    ["思而不學則殆", "思考了不學習就會陷入危險"],
+    ["知之者不如好之者", "知道它的人不如喜歡它的人"],
+    ["好之者不如樂之者", "喜歡它的人不如以它為樂的人"],
+    ["人無遠慮", "人如果沒有長遠的打算"],
+    ["必有近憂", "必定會有眼前的憂患"],
+    ["見賢思齊焉", "見到有德行的人，要想到跟他看齊"],
+    ["無", "沒有"],
+    ["必有", "一定會有"],
+    ["近憂", "眼前的憂患"],
+    ["好之者", "喜歡它的人"],
+    ["樂之者", "以它為樂的人"],
+    ["焉", "吧"],
+    ["則", "就"],
+    ["罔", "迷失"],
+    ["殆", "危險"],
+    ["之", "它"],
+    ["者", "的人"]
+  ];
+
+  let translation = normalized;
+  replacements.forEach(([from, to]) => {
+    translation = translation.split(from).join(to);
+  });
+
+  translation = translation.replace(/ +/g, " ").trim();
+  translation = translation.replace(/的人的人/g, "的人");
+
+  if (!translation || translation === normalized) {
+    return `這句古文的大意是：${normalized}`;
+  }
+
+  return translation;
+}
+
 async function callGuwenApi(query) {
   if (!query) {
     throw new Error("請先輸入查詢內容。");
   }
 
   if (API_BASE_URL.includes("example.com")) {
-    const sampleTranslation = query.includes("學而時習之，不亦樂乎")
-      ? "時常溫習學過的東西，不也很快樂嗎？"
-      : `這句話的白話大意是：「時常溫習所學的內容，不也是一件令人高興的事嗎？」`;
+    const sampleTranslation = simpleClassicalTranslation(query);
+    const sampleExample = sampleTranslation.includes("不要因為壞事很小")
+      ? "例句：不要因為一件很小的壞事就去做；做一件很小的好事，也要去做。"
+      : `例句：例如將「${query}」理解為現代語句後，可以更容易掌握它的意思：${sampleTranslation}`;
 
     return {
       original: query,
       translation: sampleTranslation,
-      examples: `例句：若你能每天複習所學，便會如同「${query}」所說，感到十分愉快。`
+      examples: sampleExample
     };
   }
 
